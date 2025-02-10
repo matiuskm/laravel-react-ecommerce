@@ -156,13 +156,15 @@ class ProductResource extends Resource
       'create' => Pages\CreateProduct::route('/create'),
       'edit' => Pages\EditProduct::route('/{record}/edit'),
       'images' => Pages\ProductImages::route('/{record}/images'),
+      'variation-types' => Pages\ProductVariationTypes::route('/{record}/variation-types'),
     ];
   }
 
   public static function getRecordSubNavigation(Page $page): array {
     return $page->generateNavigationItems([
         EditProduct::class,
-        ProductImages::class,
+        Pages\ProductImages::class,
+        Pages\ProductVariationTypes::class,
       ]);
   }
 
