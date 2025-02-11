@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\ProductStatusEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,6 +24,14 @@ class Product extends Model implements HasMedia
       ->width(480);
     $this->addMediaConversion('large')
       ->width(1200);
+  }
+
+  public function scopeForVendor(Builder $query) {
+    return $query->where('created_by', auth()->user()->id);
+  }
+
+  public function scopePublished(Builder $query) {
+    return $query->where('status', ProductStatusEnum::Published);
   }
 
   public function department(): BelongsTo
