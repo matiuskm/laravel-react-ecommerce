@@ -27,7 +27,7 @@ return new class extends Migration
     Schema::create('product_variations', function (Blueprint $table) {
       $table->id();
       $table->foreignId('product_id')->index()->constrained('products')->cascadeOnDelete();
-      $table->json('variation_type_options_ids');
+      $table->json('variation_type_option_ids');
       $table->integer('stock')->nullable();
       $table->decimal('price', 12, 2)->nullable();
       $table->timestamps();
