@@ -17,7 +17,8 @@ class Product extends Model implements HasMedia
   use SoftDeletes;
   use InteractsWithMedia;
 
-  public function registerMediaConversions(?Media $media = null): void {
+  public function registerMediaConversions(?Media $media = null): void
+  {
     $this->addMediaConversion('thumb')
       ->width(100);
     $this->addMediaConversion('small')
@@ -26,12 +27,19 @@ class Product extends Model implements HasMedia
       ->width(1200);
   }
 
-  public function scopeForVendor(Builder $query) {
+  public function scopeForVendor(Builder $query)
+  {
     return $query->where('created_by', auth()->user()->id);
   }
 
-  public function scopePublished(Builder $query) {
+  public function scopePublished(Builder $query)
+  {
     return $query->where('status', ProductStatusEnum::Published);
+  }
+
+  public function user(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'created_by');
   }
 
   public function department(): BelongsTo
@@ -44,11 +52,18 @@ class Product extends Model implements HasMedia
     return $this->belongsTo(Category::class);
   }
 
-  public function variationTypes(): HasMany {
+  public function variationTypes(): HasMany
+  {
     return $this->hasMany(VariationType::class);
   }
 
-  public function variations(): HasMany {
+  public function variations(): HasMany
+  {
     return $this->hasMany(ProductVariation::class, 'product_id');
+  }
+
+  public function getFormattedPriceAttribute(): string
+  {
+    return 'Rp ' . number_format($this->price, 0);
   }
 }

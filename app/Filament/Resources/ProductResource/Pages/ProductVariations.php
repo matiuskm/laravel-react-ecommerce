@@ -167,7 +167,6 @@ class ProductVariations extends EditRecord
       ];
     })->toArray();
 
-    $record->variations()->delete();
     $record->variations()->upsert($variations, ['id'], ['variation_type_option_ids', 'stock', 'price']);
 
     return $record;
